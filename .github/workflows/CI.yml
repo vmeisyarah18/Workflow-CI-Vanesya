@@ -17,11 +17,16 @@ jobs:
         uses: conda-incubator/setup-miniconda@v2
         with:
           miniconda-version: "latest"
+          auto-update-conda: true
 
       - name: Initialize conda for bash
         run: |
           source /usr/share/miniconda/etc/profile.d/conda.sh
           conda init bash
+
+      - name: Create environment
+        run: |
+          conda env create -f MLProject/conda.yaml
 
       - name: Install MLflow
         run: pip install mlflow
@@ -31,7 +36,7 @@ jobs:
           cd MLProject
           mlflow run . -P data_path=diabetes_preprocessing.csv
 
-      - name: Upload Model
+      - name: Upload model
         uses: actions/upload-artifact@v4
         with:
           name: model
