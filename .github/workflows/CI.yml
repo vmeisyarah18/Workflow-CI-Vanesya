@@ -13,23 +13,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Miniconda
-        uses: conda-incubator/setup-miniconda@v2
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          activate-environment: diabetes-env
-          environment-file: MLProject/conda.yaml
-          auto-activate-base: false
+          python-version: '3.10'
 
-      - name: Install MLflow
-        run: pip install mlflow
+      - name: Install dependencies
+        run: |
+          cd MLProject
+          pip install --no-progress-bar mlflow scikit-learn pandas numpy
 
-      - name: Train model using MLflow Project
+      - name: Run mlflow project
         run: |
           cd MLProject
           mlflow run . -P data_path=diabetes_preprocessing.csv
-
-      - name: Upload MLflow Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: mlflow-artifacts
-          path: MLProject/mlruns/
