@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd MLProject
-          pip install --no-progress-bar mlflow scikit-learn pandas numpy
+          pip install mlflow scikit-learn pandas numpy
 
       - name: Run mlflow project
         run: |
