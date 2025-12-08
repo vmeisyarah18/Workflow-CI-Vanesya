@@ -5,6 +5,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
+import pickle
+import os
 
 # Parser untuk MLflow Project
 parser = argparse.ArgumentParser()
@@ -37,7 +39,7 @@ with mlflow.start_run():
     f1 = f1_score(y_test, preds)
     auc = roc_auc_score(y_test, preds_proba)
 
-    # Manual logging
+    # Logging MLflow
     mlflow.log_param("max_iter", 1000)
     mlflow.log_param("model", "LogisticRegression")
 
@@ -47,7 +49,14 @@ with mlflow.start_run():
     mlflow.log_metric("f1_score", f1)
     mlflow.log_metric("roc_auc", auc)
 
-    # Log model
-    mlflow.sklearn.log_model(model, "model")
+    # Log model ke MLflow
+    mlflow.sklearn.log_model(model, "mlflow_model")
+
+# === Save manual ke folder model/ untuk CI artifact ===
+os.makedirs("model", exist_ok=True)
+
+with open("model/model.pkl", "wb") as f:
+    pickle.dump(model, f)
 
 print("Training selesai — Accuracy:", acc)
+print("Model saved to model/model.pkl")
