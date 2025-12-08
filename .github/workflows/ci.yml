@@ -28,8 +28,8 @@ jobs:
           cd MLProject
           mlflow run . -P data_path=diabetes_preprocessing.csv
 
-      - name: Upload model artifact
-        uses: actions/upload-artifact@v3
+      - name: Upload MLflow Artifacts
+        uses: actions/upload-artifact@v4
         with:
-          name: trained-model
-          path: MLProject/mlruns
+          name: mlflow-artifacts
+          path: MLProject/mlruns/
