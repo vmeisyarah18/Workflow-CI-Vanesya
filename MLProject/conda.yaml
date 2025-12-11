@@ -1,12 +1,14 @@
-name: diabetes-env
+name: mlflow-env
 channels:
-  - defaults
-  - conda-forge
+- conda-forge
 dependencies:
-  - python=3.10
-  - pip
-  - pip:
-      - mlflow
-      - scikit-learn
-      - pandas
-      - numpy
+- python=3.11.1
+- pip<=22.3.1
+- pip:
+  - mlflow==2.19.0
+  - cloudpickle==3.1.2
+  - numpy==2.2.6
+  - pandas==2.2.3
+  - psutil==5.9.4
+  - scikit-learn==1.6.1
+  - scipy==1.15.3
